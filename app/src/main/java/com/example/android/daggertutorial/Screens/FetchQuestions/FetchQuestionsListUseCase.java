@@ -14,7 +14,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class FetchQuestionsListUseCase extends BaseObservable<FetchQuestionsListUseCase.Listener> {
 
@@ -29,9 +28,9 @@ public class FetchQuestionsListUseCase extends BaseObservable<FetchQuestionsList
     private
     Call<QuestionsListResponseSchema> mCall;
 
-    public FetchQuestionsListUseCase(Retrofit retrofit) {
+    public FetchQuestionsListUseCase(StackOverflowApi stackOverflowApi) {
 
-        mStackOverflowApi = retrofit.create(StackOverflowApi.class);
+        mStackOverflowApi = stackOverflowApi;
     }
 
     public void fetchLastActiveQuestionsAndNotify(int numOfQuestions) {

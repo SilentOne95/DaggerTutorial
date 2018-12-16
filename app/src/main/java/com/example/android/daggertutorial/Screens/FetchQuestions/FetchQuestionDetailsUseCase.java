@@ -10,7 +10,6 @@ import com.example.android.daggertutorial.Screens.BaseObservable;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class FetchQuestionDetailsUseCase extends BaseObservable<FetchQuestionDetailsUseCase.Listener> {
 
@@ -25,9 +24,9 @@ public class FetchQuestionDetailsUseCase extends BaseObservable<FetchQuestionDet
     private
     Call<SingleQuestionResponseSchema> mCall;
 
-    public FetchQuestionDetailsUseCase(Retrofit retrofit) {
+    public FetchQuestionDetailsUseCase(StackOverflowApi stackOverflowApi) {
 
-        mStackOverflowApi = retrofit.create(StackOverflowApi.class);
+        mStackOverflowApi = stackOverflowApi;
     }
 
     public void fetchQuestionDetailsAndNotify(String questionId) {

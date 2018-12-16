@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 
 import com.example.android.daggertutorial.MyApplication;
+import com.example.android.daggertutorial.Networking.StackOverflowApi;
 import com.example.android.daggertutorial.Questions.Question;
 import com.example.android.daggertutorial.Screens.Dialogs.DialogsManager;
 import com.example.android.daggertutorial.Screens.QuestionDetails.QuestionDetailsActivity;
@@ -12,8 +13,6 @@ import com.example.android.daggertutorial.Screens.FetchQuestions.FetchQuestionsL
 import com.example.android.daggertutorial.Screens.Dialogs.ServerErrorDialogFragment;
 
 import java.util.List;
-
-import retrofit2.Retrofit;
 
 public class QuestionsListActivity extends AppCompatActivity implements
         QuestionsListViewMVC.Listener, FetchQuestionsListUseCase.Listener {
@@ -30,8 +29,8 @@ public class QuestionsListActivity extends AppCompatActivity implements
         mViewMVC = new QuestionsListViewMVCImpl(LayoutInflater.from(this), null);
         setContentView(mViewMVC.getRootView());
 
-        Retrofit retrofit = ((MyApplication) getApplication()).getRetrofit();
-        mFetchQuestionsListUseCase = new FetchQuestionsListUseCase(retrofit);
+        StackOverflowApi stackOverflowApi = ((MyApplication) getApplication()).getStackOverflowApi();
+        mFetchQuestionsListUseCase = new FetchQuestionsListUseCase(stackOverflowApi);
 
         mDialogManager = new DialogsManager(getSupportFragmentManager());
     }

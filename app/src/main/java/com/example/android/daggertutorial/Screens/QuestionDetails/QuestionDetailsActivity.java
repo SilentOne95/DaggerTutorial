@@ -7,12 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 
 import com.example.android.daggertutorial.MyApplication;
+import com.example.android.daggertutorial.Networking.StackOverflowApi;
 import com.example.android.daggertutorial.Questions.QuestionWithBody;
 import com.example.android.daggertutorial.Screens.Dialogs.DialogsManager;
 import com.example.android.daggertutorial.Screens.FetchQuestions.FetchQuestionDetailsUseCase;
 import com.example.android.daggertutorial.Screens.Dialogs.ServerErrorDialogFragment;
-
-import retrofit2.Retrofit;
 
 public class QuestionDetailsActivity extends AppCompatActivity implements
         QuestionDetailsViewMVC.Listener, FetchQuestionDetailsUseCase.Listener {
@@ -37,8 +36,8 @@ public class QuestionDetailsActivity extends AppCompatActivity implements
         mViewMVC = new QuestionDetailsViewMVCImpl(LayoutInflater.from(this), null);
         setContentView(mViewMVC.getRootView());
 
-        Retrofit retrofit = ((MyApplication) getApplication()).getRetrofit();
-        mFetchQuestionDetailsUseCase = new FetchQuestionDetailsUseCase(retrofit);
+        StackOverflowApi stackOverflowApi = ((MyApplication) getApplication()).getStackOverflowApi();
+        mFetchQuestionDetailsUseCase = new FetchQuestionDetailsUseCase(stackOverflowApi);
 
         //noinspection ConstantConditions
         mQuestionId = getIntent().getExtras().getString(EXTRA_QUESTION_ID);
