@@ -1,9 +1,8 @@
-package com.example.android.daggertutorial.Screens.Questions;
+package com.example.android.daggertutorial.Screens.FetchQuestions;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.example.android.daggertutorial.Constants;
 import com.example.android.daggertutorial.Networking.QuestionsListResponseSchema;
 import com.example.android.daggertutorial.Networking.StackOverflowApi;
 import com.example.android.daggertutorial.Questions.Question;
@@ -16,7 +15,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FetchQuestionsListUseCase extends BaseObservable<FetchQuestionsListUseCase.Listener> {
 
@@ -31,11 +29,7 @@ public class FetchQuestionsListUseCase extends BaseObservable<FetchQuestionsList
     private
     Call<QuestionsListResponseSchema> mCall;
 
-    public FetchQuestionsListUseCase() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+    public FetchQuestionsListUseCase(Retrofit retrofit) {
 
         mStackOverflowApi = retrofit.create(StackOverflowApi.class);
     }

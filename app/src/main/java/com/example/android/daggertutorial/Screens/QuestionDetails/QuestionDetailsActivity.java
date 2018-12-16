@@ -6,10 +6,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 
+import com.example.android.daggertutorial.MyApplication;
 import com.example.android.daggertutorial.Questions.QuestionWithBody;
 import com.example.android.daggertutorial.Screens.Dialogs.DialogsManager;
-import com.example.android.daggertutorial.Screens.Questions.FetchQuestionDetailsUseCase;
+import com.example.android.daggertutorial.Screens.FetchQuestions.FetchQuestionDetailsUseCase;
 import com.example.android.daggertutorial.Screens.Dialogs.ServerErrorDialogFragment;
+
+import retrofit2.Retrofit;
 
 public class QuestionDetailsActivity extends AppCompatActivity implements
         QuestionDetailsViewMVC.Listener, FetchQuestionDetailsUseCase.Listener {
@@ -34,7 +37,8 @@ public class QuestionDetailsActivity extends AppCompatActivity implements
         mViewMVC = new QuestionDetailsViewMVCImpl(LayoutInflater.from(this), null);
         setContentView(mViewMVC.getRootView());
 
-        mFetchQuestionDetailsUseCase = new FetchQuestionDetailsUseCase();
+        Retrofit retrofit = ((MyApplication) getApplication()).getRetrofit();
+        mFetchQuestionDetailsUseCase = new FetchQuestionDetailsUseCase(retrofit);
 
         //noinspection ConstantConditions
         mQuestionId = getIntent().getExtras().getString(EXTRA_QUESTION_ID);

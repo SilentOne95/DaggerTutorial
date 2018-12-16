@@ -4,13 +4,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 
+import com.example.android.daggertutorial.MyApplication;
 import com.example.android.daggertutorial.Questions.Question;
 import com.example.android.daggertutorial.Screens.Dialogs.DialogsManager;
 import com.example.android.daggertutorial.Screens.QuestionDetails.QuestionDetailsActivity;
-import com.example.android.daggertutorial.Screens.Questions.FetchQuestionsListUseCase;
+import com.example.android.daggertutorial.Screens.FetchQuestions.FetchQuestionsListUseCase;
 import com.example.android.daggertutorial.Screens.Dialogs.ServerErrorDialogFragment;
 
 import java.util.List;
+
+import retrofit2.Retrofit;
 
 public class QuestionsListActivity extends AppCompatActivity implements
         QuestionsListViewMVC.Listener, FetchQuestionsListUseCase.Listener {
@@ -27,7 +30,8 @@ public class QuestionsListActivity extends AppCompatActivity implements
         mViewMVC = new QuestionsListViewMVCImpl(LayoutInflater.from(this), null);
         setContentView(mViewMVC.getRootView());
 
-        mFetchQuestionsListUseCase = new FetchQuestionsListUseCase();
+        Retrofit retrofit = ((MyApplication) getApplication()).getRetrofit();
+        mFetchQuestionsListUseCase = new FetchQuestionsListUseCase(retrofit);
 
         mDialogManager = new DialogsManager(getSupportFragmentManager());
     }
