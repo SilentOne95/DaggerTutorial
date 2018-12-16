@@ -1,4 +1,4 @@
-package com.example.android.daggertutorial.Screens;
+package com.example.android.daggertutorial.Screens.QuestionDetails;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,13 +6,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
-import android.widget.TextView;
+import android.view.LayoutInflater;
 
 import com.example.android.daggertutorial.Constants;
 import com.example.android.daggertutorial.Networking.SingleQuestionResponseSchema;
 import com.example.android.daggertutorial.Networking.StackOverflowApi;
-import com.example.android.daggertutorial.R;
+import com.example.android.daggertutorial.Screens.ServerErrorDialogFragment;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -21,7 +20,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class QuestionDetailsActivity extends AppCompatActivity implements
-        Callback<SingleQuestionResponseSchema> {
+        Callback<SingleQuestionResponseSchema>, QuestionDetailsViewMVC.Listener {
 
     public static final String EXTRA_QUESTION_ID = "EXTRA_QUESTION_ID";
 
@@ -31,20 +30,17 @@ public class QuestionDetailsActivity extends AppCompatActivity implements
         context.startActivity(intent);
     }
 
-    private TextView mTxtQuestionBody;
-
     private StackOverflowApi mStackOverflowApi;
-
     private Call<SingleQuestionResponseSchema> mCall;
-
     private String mQuestionId;
+    private QuestionDetailsViewMVC mViewMVC;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_question_details);
 
-        mTxtQuestionBody = findViewById(R.id.txt_question_body);
+        mViewMVC = new QuestionDetailsViewMVCImpl(LayoutInflater.from(this), null);
+        setContentView(mViewMVC.getRootView());
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
@@ -55,12 +51,12 @@ public class QuestionDetailsActivity extends AppCompatActivity implements
 
         //noinspection ConstantConditions
         mQuestionId = getIntent().getExtras().getString(EXTRA_QUESTION_ID);
-
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        mViewMVC.registerListener(this);
         mCall = mStackOverflowApi.questionDetails(mQuestionId);
         mCall.enqueue(this);
     }
@@ -68,6 +64,7 @@ public class QuestionDetailsActivity extends AppCompatActivity implements
     @Override
     protected void onStop() {
         super.onStop();
+        mViewMVC.unregisterListener(this);
         if (mCall != null) {
             mCall.cancel();
         }
@@ -78,12 +75,7 @@ public class QuestionDetailsActivity extends AppCompatActivity implements
                            @NonNull Response<SingleQuestionResponseSchema> response) {
         SingleQuestionResponseSchema questionResponseSchema;
         if (response.isSuccessful() && (questionResponseSchema = response.body()) != null) {
-            String questionBody = questionResponseSchema.getQuestion().getBody();
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                mTxtQuestionBody.setText(Html.fromHtml(questionBody, Html.FROM_HTML_MODE_LEGACY));
-            } else {
-                mTxtQuestionBody.setText(Html.fromHtml(questionBody));
-            }
+            mViewMVC.bindQuestions(questionResponseSchema.getQuestion());
         } else {
             onFailure(call, null);
         }
