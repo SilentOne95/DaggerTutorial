@@ -1,4 +1,4 @@
-package com.example.android.daggertutorial.Screens;
+package com.example.android.daggertutorial.Screens.Dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -21,9 +21,7 @@ public class ServerErrorDialogFragment extends DialogFragment {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
 
         alertDialogBuilder.setTitle(R.string.server_error_dialog_title);
-
         alertDialogBuilder.setMessage(R.string.server_error_dialog_message);
-
         alertDialogBuilder.setPositiveButton(
                 R.string.server_error_dialog_button_caption,
                 new DialogInterface.OnClickListener() {

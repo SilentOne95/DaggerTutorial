@@ -3,13 +3,13 @@ package com.example.android.daggertutorial.Screens.QuestionDetails;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 
 import com.example.android.daggertutorial.Questions.QuestionWithBody;
+import com.example.android.daggertutorial.Screens.Dialogs.DialogsManager;
 import com.example.android.daggertutorial.Screens.Questions.FetchQuestionDetailsUseCase;
-import com.example.android.daggertutorial.Screens.ServerErrorDialogFragment;
+import com.example.android.daggertutorial.Screens.Dialogs.ServerErrorDialogFragment;
 
 public class QuestionDetailsActivity extends AppCompatActivity implements
         QuestionDetailsViewMVC.Listener, FetchQuestionDetailsUseCase.Listener {
@@ -25,6 +25,7 @@ public class QuestionDetailsActivity extends AppCompatActivity implements
     private String mQuestionId;
     private QuestionDetailsViewMVC mViewMVC;
     private FetchQuestionDetailsUseCase mFetchQuestionDetailsUseCase;
+    private DialogsManager mDialogsManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,8 @@ public class QuestionDetailsActivity extends AppCompatActivity implements
 
         //noinspection ConstantConditions
         mQuestionId = getIntent().getExtras().getString(EXTRA_QUESTION_ID);
+
+        mDialogsManager = new DialogsManager(getSupportFragmentManager());
     }
 
     @Override
@@ -61,9 +64,6 @@ public class QuestionDetailsActivity extends AppCompatActivity implements
 
     @Override
     public void onFetchOfQuestionDetailsFailed() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .add(ServerErrorDialogFragment.newInstance(), null)
-                .commitAllowingStateLoss();
+        mDialogsManager.showRetainedDialogWithId(ServerErrorDialogFragment.newInstance(), "");
     }
 }

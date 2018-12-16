@@ -1,17 +1,16 @@
 package com.example.android.daggertutorial.Screens.QuestionsList;
 
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 
 import com.example.android.daggertutorial.Questions.Question;
+import com.example.android.daggertutorial.Screens.Dialogs.DialogsManager;
 import com.example.android.daggertutorial.Screens.QuestionDetails.QuestionDetailsActivity;
 import com.example.android.daggertutorial.Screens.Questions.FetchQuestionsListUseCase;
-import com.example.android.daggertutorial.Screens.ServerErrorDialogFragment;
+import com.example.android.daggertutorial.Screens.Dialogs.ServerErrorDialogFragment;
 
 import java.util.List;
-
 
 public class QuestionsListActivity extends AppCompatActivity implements
         QuestionsListViewMVC.Listener, FetchQuestionsListUseCase.Listener {
@@ -19,6 +18,7 @@ public class QuestionsListActivity extends AppCompatActivity implements
     private static final int NUM_OF_QUESTIONS_TO_FETCH = 20;
     private FetchQuestionsListUseCase mFetchQuestionsListUseCase;
     private QuestionsListViewMVC mViewMVC;
+    private DialogsManager mDialogManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +28,8 @@ public class QuestionsListActivity extends AppCompatActivity implements
         setContentView(mViewMVC.getRootView());
 
         mFetchQuestionsListUseCase = new FetchQuestionsListUseCase();
+
+        mDialogManager = new DialogsManager(getSupportFragmentManager());
     }
 
     @Override
@@ -52,10 +54,7 @@ public class QuestionsListActivity extends AppCompatActivity implements
 
     @Override
     public void onFetchOfQuestionsFailed() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .add(ServerErrorDialogFragment.newInstance(), null)
-                .commitAllowingStateLoss();
+        mDialogManager.showRetainedDialogWithId(ServerErrorDialogFragment.newInstance(), "");
     }
 
     @Override
