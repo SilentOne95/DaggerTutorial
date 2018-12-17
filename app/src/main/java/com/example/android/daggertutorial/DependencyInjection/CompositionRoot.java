@@ -31,11 +31,11 @@ public class CompositionRoot {
         return mStackOverflowApi;
     }
 
-    public FetchQuestionsListUseCase getFetchQuestionsListUseCase() {
+    FetchQuestionsListUseCase getFetchQuestionsListUseCase() {
         return new FetchQuestionsListUseCase(getStackOverflowApi());
     }
 
-    public FetchQuestionDetailsUseCase getFetchQuestionDetailsUseCase() {
+    FetchQuestionDetailsUseCase getFetchQuestionDetailsUseCase() {
         return new FetchQuestionDetailsUseCase(getStackOverflowApi());
     }
 }

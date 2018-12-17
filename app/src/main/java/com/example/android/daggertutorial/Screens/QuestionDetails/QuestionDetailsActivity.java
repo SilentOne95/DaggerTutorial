@@ -3,7 +3,6 @@ package com.example.android.daggertutorial.Screens.QuestionDetails;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 
 import com.example.android.daggertutorial.Questions.QuestionWithBody;
 import com.example.android.daggertutorial.Screens.Activities.BaseActivity;
@@ -31,7 +30,7 @@ public class QuestionDetailsActivity extends BaseActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mViewMVC = new QuestionDetailsViewMVCImpl(LayoutInflater.from(this), null);
+        mViewMVC = getCompositionRoot().getViewMvcFactory().newInstance(QuestionDetailsViewMVC.class, null);
         setContentView(mViewMVC.getRootView());
 
         mFetchQuestionDetailsUseCase = getCompositionRoot().getFetchQuestionDetailsUseCase();

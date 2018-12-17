@@ -1,7 +1,6 @@
 package com.example.android.daggertutorial.Screens.QuestionsList;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 
 import com.example.android.daggertutorial.Questions.Question;
 import com.example.android.daggertutorial.Screens.Activities.BaseActivity;
@@ -24,7 +23,7 @@ public class QuestionsListActivity extends BaseActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mViewMVC = new QuestionsListViewMVCImpl(LayoutInflater.from(this), null);
+        mViewMVC = getCompositionRoot().getViewMvcFactory().newInstance(QuestionsListViewMVC.class, null);
         setContentView(mViewMVC.getRootView());
 
         mFetchQuestionsListUseCase = getCompositionRoot().getFetchQuestionsListUseCase();
