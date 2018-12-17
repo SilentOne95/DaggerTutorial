@@ -1,13 +1,10 @@
 package com.example.android.daggertutorial.DependencyInjection;
 
-import android.support.annotation.UiThread;
-import android.support.v4.app.FragmentManager;
-
 import com.example.android.daggertutorial.Constants;
 import com.example.android.daggertutorial.Networking.StackOverflowApi;
 import com.example.android.daggertutorial.Questions.FetchQuestionDetailsUseCase;
 import com.example.android.daggertutorial.Questions.FetchQuestionsListUseCase;
-import com.example.android.daggertutorial.Screens.Dialogs.DialogsManager;
+import com.example.android.daggertutorial.Screens.Dialogs.DialogsManagerFactory;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -43,7 +40,7 @@ public class CompositionRoot {
         return new FetchQuestionDetailsUseCase(getStackOverflowApi());
     }
 
-    public DialogsManager getDialogsManager(FragmentManager fragmentManager) {
-        return new DialogsManager(fragmentManager);
+    public DialogsManagerFactory getDialogsManagerFactory() {
+        return new DialogsManagerFactory();
     }
 }
