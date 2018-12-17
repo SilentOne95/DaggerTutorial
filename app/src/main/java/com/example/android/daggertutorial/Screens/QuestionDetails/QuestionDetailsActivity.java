@@ -39,7 +39,7 @@ public class QuestionDetailsActivity extends BaseActivity implements
         //noinspection ConstantConditions
         mQuestionId = getIntent().getExtras().getString(EXTRA_QUESTION_ID);
 
-        mDialogsManager = getCompositionRoot().getDialogsManagerFactory().newDialogManager(getSupportFragmentManager());
+        mDialogsManager = getCompositionRoot().getDialogsManager();
     }
 
     @Override

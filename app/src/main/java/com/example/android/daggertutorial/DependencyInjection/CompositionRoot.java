@@ -4,7 +4,6 @@ import com.example.android.daggertutorial.Constants;
 import com.example.android.daggertutorial.Networking.StackOverflowApi;
 import com.example.android.daggertutorial.Questions.FetchQuestionDetailsUseCase;
 import com.example.android.daggertutorial.Questions.FetchQuestionsListUseCase;
-import com.example.android.daggertutorial.Screens.Dialogs.DialogsManagerFactory;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -38,9 +37,5 @@ public class CompositionRoot {
 
     public FetchQuestionDetailsUseCase getFetchQuestionDetailsUseCase() {
         return new FetchQuestionDetailsUseCase(getStackOverflowApi());
-    }
-
-    public DialogsManagerFactory getDialogsManagerFactory() {
-        return new DialogsManagerFactory();
     }
 }
