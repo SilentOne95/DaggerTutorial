@@ -1,11 +1,10 @@
-package com.example.android.daggertutorial.Screens.FetchQuestions;
+package com.example.android.daggertutorial.Questions;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.example.android.daggertutorial.Networking.QuestionsListResponseSchema;
 import com.example.android.daggertutorial.Networking.StackOverflowApi;
-import com.example.android.daggertutorial.Questions.Question;
 import com.example.android.daggertutorial.Screens.BaseObservable;
 
 import java.util.Collections;

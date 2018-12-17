@@ -3,8 +3,8 @@ package com.example.android.daggertutorial;
 import android.support.annotation.UiThread;
 
 import com.example.android.daggertutorial.Networking.StackOverflowApi;
-import com.example.android.daggertutorial.Screens.FetchQuestions.FetchQuestionDetailsUseCase;
-import com.example.android.daggertutorial.Screens.FetchQuestions.FetchQuestionsListUseCase;
+import com.example.android.daggertutorial.Questions.FetchQuestionDetailsUseCase;
+import com.example.android.daggertutorial.Questions.FetchQuestionsListUseCase;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

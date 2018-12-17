@@ -3,16 +3,15 @@ package com.example.android.daggertutorial.Screens.QuestionDetails;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 
-import com.example.android.daggertutorial.MyApplication;
 import com.example.android.daggertutorial.Questions.QuestionWithBody;
+import com.example.android.daggertutorial.Screens.Activities.BaseActivity;
 import com.example.android.daggertutorial.Screens.Dialogs.DialogsManager;
-import com.example.android.daggertutorial.Screens.FetchQuestions.FetchQuestionDetailsUseCase;
+import com.example.android.daggertutorial.Questions.FetchQuestionDetailsUseCase;
 import com.example.android.daggertutorial.Screens.Dialogs.ServerErrorDialogFragment;
 
-public class QuestionDetailsActivity extends AppCompatActivity implements
+public class QuestionDetailsActivity extends BaseActivity implements
         QuestionDetailsViewMVC.Listener, FetchQuestionDetailsUseCase.Listener {
 
     public static final String EXTRA_QUESTION_ID = "EXTRA_QUESTION_ID";
@@ -35,7 +34,7 @@ public class QuestionDetailsActivity extends AppCompatActivity implements
         mViewMVC = new QuestionDetailsViewMVCImpl(LayoutInflater.from(this), null);
         setContentView(mViewMVC.getRootView());
 
-        mFetchQuestionDetailsUseCase = ((MyApplication) getApplication()).getCompositionRoot().getFetchQuestionDetailsUseCase();
+        mFetchQuestionDetailsUseCase = getCompositionRoot().getFetchQuestionDetailsUseCase();
 
         //noinspection ConstantConditions
         mQuestionId = getIntent().getExtras().getString(EXTRA_QUESTION_ID);

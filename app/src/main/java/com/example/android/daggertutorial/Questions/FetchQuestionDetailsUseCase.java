@@ -1,10 +1,9 @@
-package com.example.android.daggertutorial.Screens.FetchQuestions;
+package com.example.android.daggertutorial.Questions;
 
 import android.support.annotation.Nullable;
 
 import com.example.android.daggertutorial.Networking.SingleQuestionResponseSchema;
 import com.example.android.daggertutorial.Networking.StackOverflowApi;
-import com.example.android.daggertutorial.Questions.QuestionWithBody;
 import com.example.android.daggertutorial.Screens.BaseObservable;
 
 import retrofit2.Call;
