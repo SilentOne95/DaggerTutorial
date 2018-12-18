@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Screens.QuestionsList.QuestionsListActivity">
+        <activity android:name=".screens.questionslist.QuestionsListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,9 +20,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Screens.QuestionDetails.QuestionDetailsActivity">
+        <activity android:name=".screens.questiondetails.QuestionDetailsActivity">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Screens.QuestionsList.QuestionsListActivity"/>
+                android:value=".screens.questionslist.QuestionsListActivity"/>
         </activity>
 
     </application>
