@@ -9,6 +9,7 @@ import com.example.android.daggertutorial.screens.activities.BaseActivity;
 import com.example.android.daggertutorial.screens.dialogs.DialogsManager;
 import com.example.android.daggertutorial.questions.FetchQuestionDetailsUseCase;
 import com.example.android.daggertutorial.screens.dialogs.ServerErrorDialogFragment;
+import com.example.android.daggertutorial.screens.mvcviews.ViewMvcFactory;
 
 public class QuestionDetailsActivity extends BaseActivity implements
         QuestionDetailsViewMvc.Listener, FetchQuestionDetailsUseCase.Listener {
@@ -23,23 +24,22 @@ public class QuestionDetailsActivity extends BaseActivity implements
 
     private String mQuestionId;
     private QuestionDetailsViewMvc mViewMvc;
-    private FetchQuestionDetailsUseCase mFetchQuestionDetailsUseCase;
-    private DialogsManager mDialogsManager;
+
+    public FetchQuestionDetailsUseCase mFetchQuestionDetailsUseCase;
+    public DialogsManager mDialogsManager;
+    public ViewMvcFactory mViewMvcFactory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getInjector().inject(this);
 
-        mViewMvc = getCompositionRoot().getViewMvcFactory().newInstance(QuestionDetailsViewMvc.class, null);
+        mViewMvc = mViewMvcFactory.newInstance(QuestionDetailsViewMvc.class, null);
 
         setContentView(mViewMvc.getRootView());
 
-        mFetchQuestionDetailsUseCase = getCompositionRoot().getFetchQuestionDetailsUseCase();
-
         //noinspection ConstantConditions
         mQuestionId = getIntent().getExtras().getString(EXTRA_QUESTION_ID);
-
-        mDialogsManager = getCompositionRoot().getDialogsManager();
     }
 
     @Override
