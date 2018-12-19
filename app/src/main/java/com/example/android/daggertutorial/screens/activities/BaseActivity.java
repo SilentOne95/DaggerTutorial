@@ -10,22 +10,20 @@ import com.example.android.daggertutorial.MyApplication;
 
 public class BaseActivity extends AppCompatActivity {
 
-    private PresentationCompositionRoot mPresentationCompositionRoot;
+    private boolean mIsInjectorUsed;
 
     @UiThread
     protected Injector getInjector() {
+        if (mIsInjectorUsed) {
+            throw new RuntimeException("there is no need to use injector more than once");
+        }
+        mIsInjectorUsed = true;
+
         return new Injector(getCompositionRoot());
     }
 
     private PresentationCompositionRoot getCompositionRoot() {
-        if (mPresentationCompositionRoot == null) {
-            mPresentationCompositionRoot = new PresentationCompositionRoot(
-                    getAppCompositionRoot(),
-                    this
-            );
-        }
-
-        return mPresentationCompositionRoot;
+        return new PresentationCompositionRoot(getAppCompositionRoot(), this);
     }
 
     private CompositionRoot getAppCompositionRoot() {
