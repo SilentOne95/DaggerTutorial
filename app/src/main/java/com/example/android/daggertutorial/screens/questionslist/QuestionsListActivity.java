@@ -2,6 +2,7 @@ package com.example.android.daggertutorial.screens.questionslist;
 
 import android.os.Bundle;
 
+import com.example.android.daggertutorial.common.dependencyinjection.Service;
 import com.example.android.daggertutorial.questions.Question;
 import com.example.android.daggertutorial.screens.activities.BaseActivity;
 import com.example.android.daggertutorial.screens.dialogs.DialogsManager;
@@ -17,10 +18,11 @@ public class QuestionsListActivity extends BaseActivity implements
 
     private static final int NUM_OF_QUESTIONS_TO_FETCH = 20;
 
-    public FetchQuestionsListUseCase mFetchQuestionsListUseCase;
+    @Service private FetchQuestionsListUseCase mFetchQuestionsListUseCase;
+    @Service private DialogsManager mDialogsManager;
+    @Service private ViewMvcFactory mViewMvcFactory;
+
     public QuestionsListViewMvc mViewMvc;
-    public DialogsManager mDialogsManager;
-    public ViewMvcFactory mViewMvcFactory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

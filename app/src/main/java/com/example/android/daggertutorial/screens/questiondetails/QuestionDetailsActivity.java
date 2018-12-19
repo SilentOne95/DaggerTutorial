@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.android.daggertutorial.common.dependencyinjection.Service;
 import com.example.android.daggertutorial.questions.QuestionDetails;
 import com.example.android.daggertutorial.screens.activities.BaseActivity;
 import com.example.android.daggertutorial.screens.dialogs.DialogsManager;
@@ -22,12 +23,12 @@ public class QuestionDetailsActivity extends BaseActivity implements
         context.startActivity(intent);
     }
 
+    @Service private FetchQuestionDetailsUseCase mFetchQuestionDetailsUseCase;
+    @Service private DialogsManager mDialogsManager;
+    @Service private ViewMvcFactory mViewMvcFactory;
+
     private String mQuestionId;
     private QuestionDetailsViewMvc mViewMvc;
-
-    public FetchQuestionDetailsUseCase mFetchQuestionDetailsUseCase;
-    public DialogsManager mDialogsManager;
-    public ViewMvcFactory mViewMvcFactory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
