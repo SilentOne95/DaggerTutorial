@@ -2,7 +2,6 @@ package com.example.android.daggertutorial.common.dependencyinjection.applicatio
 
 import com.example.android.daggertutorial.Constants;
 import com.example.android.daggertutorial.networking.StackOverflowApi;
-import com.example.android.daggertutorial.questions.FetchQuestionDetailsUseCase;
 import com.example.android.daggertutorial.questions.FetchQuestionsListUseCase;
 
 import javax.inject.Singleton;
@@ -34,10 +33,5 @@ public class ApplicationModule {
     @Provides
     FetchQuestionsListUseCase getFetchQuestionsListUseCase(StackOverflowApi stackOverflowApi) {
         return new FetchQuestionsListUseCase(stackOverflowApi);
-    }
-
-    @Provides
-    FetchQuestionDetailsUseCase getFetchQuestionDetailsUseCase(StackOverflowApi stackOverflowApi) {
-        return new FetchQuestionDetailsUseCase(stackOverflowApi);
     }
 }

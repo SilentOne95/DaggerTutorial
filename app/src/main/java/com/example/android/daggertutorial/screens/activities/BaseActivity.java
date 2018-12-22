@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.example.android.daggertutorial.MyApplication;
 import com.example.android.daggertutorial.common.dependencyinjection.application.ApplicationComponent;
-import com.example.android.daggertutorial.common.dependencyinjection.presentation.DaggerPresentationComponent;
 import com.example.android.daggertutorial.common.dependencyinjection.presentation.PresentationComponent;
 import com.example.android.daggertutorial.common.dependencyinjection.presentation.PresentationModule;
 
@@ -20,10 +19,8 @@ public class BaseActivity extends AppCompatActivity {
         }
         mIsInjectorUsed = true;
 
-        return DaggerPresentationComponent.builder()
-                .presentationModule(new PresentationModule(this))
-                .applicationComponent(getApplicationComponent())
-                .build();
+        return getApplicationComponent()
+                .newPresentationComponent(new PresentationModule(this));
     }
 
     private ApplicationComponent getApplicationComponent() {

@@ -5,6 +5,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 
+import com.example.android.daggertutorial.networking.StackOverflowApi;
+import com.example.android.daggertutorial.questions.FetchQuestionDetailsUseCase;
 import com.example.android.daggertutorial.screens.ImageLoader;
 import com.example.android.daggertutorial.screens.dialogs.DialogsManager;
 import com.example.android.daggertutorial.screens.mvcviews.ViewMvcFactory;
@@ -34,6 +36,11 @@ public class PresentationModule {
     @Provides
     Activity getActivity() {
         return mActivity;
+    }
+
+    @Provides
+    FetchQuestionDetailsUseCase getFetchQuestionDetailsUseCase(StackOverflowApi stackOverflowApi) {
+        return new FetchQuestionDetailsUseCase(stackOverflowApi);
     }
 
     @Provides
