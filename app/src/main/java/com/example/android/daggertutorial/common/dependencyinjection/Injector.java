@@ -1,5 +1,6 @@
 package com.example.android.daggertutorial.common.dependencyinjection;
 
+import com.example.android.daggertutorial.common.dependencyinjection.presentation.PresentationComponent;
 import com.example.android.daggertutorial.questions.FetchQuestionDetailsUseCase;
 import com.example.android.daggertutorial.questions.FetchQuestionsListUseCase;
 import com.example.android.daggertutorial.screens.dialogs.DialogsManager;
@@ -10,10 +11,10 @@ import java.lang.reflect.Field;
 
 public class Injector {
 
-    private final PresentationCompositionRoot mPresentationCompositionRoot;
+    private final PresentationComponent mPresentationComponent;
 
-    public Injector(PresentationCompositionRoot presentationCompositionRoot) {
-        mPresentationCompositionRoot = presentationCompositionRoot;
+    public Injector(PresentationComponent presentationComponent) {
+        mPresentationComponent = presentationComponent;
     }
 
     public void inject(Object client) {
@@ -53,16 +54,16 @@ public class Injector {
 
     private Object getServiceForClass(Class<?> type) {
         if (type.equals(DialogsManager.class)) {
-            return mPresentationCompositionRoot.getDialogsManager();
+            return mPresentationComponent.getDialogsManager();
         }
         else if (type.equals(ViewMvcFactory.class)) {
-            return mPresentationCompositionRoot.getViewMvcFactory();
+            return mPresentationComponent.getViewMvcFactory();
         }
         else if (type.equals(FetchQuestionsListUseCase.class)) {
-            return mPresentationCompositionRoot.getFetchQuestionsListUseCase();
+            return mPresentationComponent.getFetchQuestionsListUseCase();
         }
         else if (type.equals(FetchQuestionDetailsUseCase.class)) {
-            return mPresentationCompositionRoot.getFetchQuestionDetailsUseCase();
+            return mPresentationComponent.getFetchQuestionDetailsUseCase();
         }
         else {
             throw new RuntimeException("unsupported service type class: " + type);

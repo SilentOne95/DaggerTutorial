@@ -1,8 +1,8 @@
-package com.example.android.daggertutorial.common.dependencyinjection;
+package com.example.android.daggertutorial.common.dependencyinjection.presentation;
 
 import android.app.Activity;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 
 import com.example.android.daggertutorial.common.dependencyinjection.application.ApplicationComponent;
@@ -12,46 +12,57 @@ import com.example.android.daggertutorial.screens.ImageLoader;
 import com.example.android.daggertutorial.screens.dialogs.DialogsManager;
 import com.example.android.daggertutorial.screens.mvcviews.ViewMvcFactory;
 
-public class PresentationCompositionRoot {
+import dagger.Module;
+import dagger.Provides;
 
+@Module
+public class PresentationModule {
+
+    private final FragmentActivity mActivity;
     private final ApplicationComponent mApplicationComponent;
-    private final AppCompatActivity mActivity;
 
-    public PresentationCompositionRoot(ApplicationComponent applicationComponent,
-                                       AppCompatActivity activity) {
+    public PresentationModule(FragmentActivity fragmentActivity, ApplicationComponent applicationComponent) {
+        mActivity = fragmentActivity;
         mApplicationComponent = applicationComponent;
-        mActivity = activity;
     }
 
-    private FragmentManager getFragmentManager() {
+    @Provides
+    FragmentManager getFragmentManager() {
         return mActivity.getSupportFragmentManager();
     }
 
-    private LayoutInflater getLayoutInflater() {
+    @Provides
+    LayoutInflater getLayoutInflater() {
         return LayoutInflater.from(mActivity);
     }
 
-    private Activity getActivity() {
+    @Provides
+    Activity getActivity() {
         return mActivity;
     }
 
-    public DialogsManager getDialogsManager() {
+    @Provides
+    DialogsManager getDialogsManager() {
         return new DialogsManager(getFragmentManager());
     }
 
-    public FetchQuestionDetailsUseCase getFetchQuestionDetailsUseCase() {
+    @Provides
+    FetchQuestionDetailsUseCase getFetchQuestionDetailsUseCase() {
         return mApplicationComponent.getFetchQuestionDetailsUseCase();
     }
 
-    public FetchQuestionsListUseCase getFetchQuestionsListUseCase() {
+    @Provides
+    FetchQuestionsListUseCase getFetchQuestionsListUseCase() {
         return mApplicationComponent.getFetchQuestionsListUseCase();
     }
 
-    public ViewMvcFactory getViewMvcFactory() {
+    @Provides
+    ViewMvcFactory getViewMvcFactory() {
         return new ViewMvcFactory(getLayoutInflater(), getImageLoader());
     }
 
-    private ImageLoader getImageLoader() {
+    @Provides
+    ImageLoader getImageLoader() {
         return new ImageLoader(getActivity());
     }
 }

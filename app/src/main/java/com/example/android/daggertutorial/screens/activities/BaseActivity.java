@@ -4,9 +4,11 @@ import android.support.annotation.UiThread;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.android.daggertutorial.common.dependencyinjection.Injector;
-import com.example.android.daggertutorial.common.dependencyinjection.PresentationCompositionRoot;
 import com.example.android.daggertutorial.MyApplication;
 import com.example.android.daggertutorial.common.dependencyinjection.application.ApplicationComponent;
+import com.example.android.daggertutorial.common.dependencyinjection.presentation.DaggerPresentationComponent;
+import com.example.android.daggertutorial.common.dependencyinjection.presentation.PresentationComponent;
+import com.example.android.daggertutorial.common.dependencyinjection.presentation.PresentationModule;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -19,11 +21,13 @@ public class BaseActivity extends AppCompatActivity {
         }
         mIsInjectorUsed = true;
 
-        return new Injector(getCompositionRoot());
+        return new Injector(getPresentationComponent());
     }
 
-    private PresentationCompositionRoot getCompositionRoot() {
-        return new PresentationCompositionRoot(getApplicationComponent(), this);
+    private PresentationComponent getPresentationComponent() {
+        return DaggerPresentationComponent.builder()
+                .presentationModule(new PresentationModule(this, getApplicationComponent()))
+                .build();
     }
 
     private ApplicationComponent getApplicationComponent() {
