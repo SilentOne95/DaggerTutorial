@@ -2,7 +2,6 @@ package com.example.android.daggertutorial.screens.questionslist;
 
 import android.os.Bundle;
 
-import com.example.android.daggertutorial.common.dependencyinjection.Service;
 import com.example.android.daggertutorial.questions.Question;
 import com.example.android.daggertutorial.screens.activities.BaseActivity;
 import com.example.android.daggertutorial.screens.dialogs.DialogsManager;
@@ -13,21 +12,23 @@ import com.example.android.daggertutorial.screens.dialogs.ServerErrorDialogFragm
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class QuestionsListActivity extends BaseActivity implements
         QuestionsListViewMvc.Listener, FetchQuestionsListUseCase.Listener {
 
     private static final int NUM_OF_QUESTIONS_TO_FETCH = 20;
 
-    @Service private FetchQuestionsListUseCase mFetchQuestionsListUseCase;
-    @Service private DialogsManager mDialogsManager;
-    @Service private ViewMvcFactory mViewMvcFactory;
+    @Inject FetchQuestionsListUseCase mFetchQuestionsListUseCase;
+    @Inject DialogsManager mDialogsManager;
+    @Inject ViewMvcFactory mViewMvcFactory;
 
     public QuestionsListViewMvc mViewMvc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getInjector().inject(this);
+        getPresentationComponent().inject(this);
 
         mViewMvc = mViewMvcFactory.newInstance(QuestionsListViewMvc.class, null);
 

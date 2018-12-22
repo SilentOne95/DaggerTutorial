@@ -4,13 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.android.daggertutorial.common.dependencyinjection.Service;
 import com.example.android.daggertutorial.questions.QuestionDetails;
 import com.example.android.daggertutorial.screens.activities.BaseActivity;
 import com.example.android.daggertutorial.screens.dialogs.DialogsManager;
 import com.example.android.daggertutorial.questions.FetchQuestionDetailsUseCase;
 import com.example.android.daggertutorial.screens.dialogs.ServerErrorDialogFragment;
 import com.example.android.daggertutorial.screens.mvcviews.ViewMvcFactory;
+
+import javax.inject.Inject;
 
 public class QuestionDetailsActivity extends BaseActivity implements
         QuestionDetailsViewMvc.Listener, FetchQuestionDetailsUseCase.Listener {
@@ -23,9 +24,9 @@ public class QuestionDetailsActivity extends BaseActivity implements
         context.startActivity(intent);
     }
 
-    @Service private FetchQuestionDetailsUseCase mFetchQuestionDetailsUseCase;
-    @Service private DialogsManager mDialogsManager;
-    @Service private ViewMvcFactory mViewMvcFactory;
+    @Inject FetchQuestionDetailsUseCase mFetchQuestionDetailsUseCase;
+    @Inject DialogsManager mDialogsManager;
+    @Inject ViewMvcFactory mViewMvcFactory;
 
     private String mQuestionId;
     private QuestionDetailsViewMvc mViewMvc;
@@ -33,7 +34,7 @@ public class QuestionDetailsActivity extends BaseActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getInjector().inject(this);
+        getPresentationComponent().inject(this);
 
         mViewMvc = mViewMvcFactory.newInstance(QuestionDetailsViewMvc.class, null);
 
