@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 
+import com.example.android.daggertutorial.common.dependencyinjection.application.ApplicationComponent;
 import com.example.android.daggertutorial.questions.FetchQuestionDetailsUseCase;
 import com.example.android.daggertutorial.questions.FetchQuestionsListUseCase;
 import com.example.android.daggertutorial.screens.ImageLoader;
@@ -13,12 +14,12 @@ import com.example.android.daggertutorial.screens.mvcviews.ViewMvcFactory;
 
 public class PresentationCompositionRoot {
 
-    private final CompositionRoot mCompositionRoot;
+    private final ApplicationComponent mApplicationComponent;
     private final AppCompatActivity mActivity;
 
-    public PresentationCompositionRoot(CompositionRoot compositionRoot,
+    public PresentationCompositionRoot(ApplicationComponent applicationComponent,
                                        AppCompatActivity activity) {
-        mCompositionRoot = compositionRoot;
+        mApplicationComponent = applicationComponent;
         mActivity = activity;
     }
 
@@ -39,11 +40,11 @@ public class PresentationCompositionRoot {
     }
 
     public FetchQuestionDetailsUseCase getFetchQuestionDetailsUseCase() {
-        return mCompositionRoot.getFetchQuestionDetailsUseCase();
+        return mApplicationComponent.getFetchQuestionDetailsUseCase();
     }
 
     public FetchQuestionsListUseCase getFetchQuestionsListUseCase() {
-        return mCompositionRoot.getFetchQuestionsListUseCase();
+        return mApplicationComponent.getFetchQuestionsListUseCase();
     }
 
     public ViewMvcFactory getViewMvcFactory() {

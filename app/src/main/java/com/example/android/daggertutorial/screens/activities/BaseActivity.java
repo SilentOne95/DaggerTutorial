@@ -3,10 +3,10 @@ package com.example.android.daggertutorial.screens.activities;
 import android.support.annotation.UiThread;
 import android.support.v7.app.AppCompatActivity;
 
-import com.example.android.daggertutorial.common.dependencyinjection.CompositionRoot;
 import com.example.android.daggertutorial.common.dependencyinjection.Injector;
 import com.example.android.daggertutorial.common.dependencyinjection.PresentationCompositionRoot;
 import com.example.android.daggertutorial.MyApplication;
+import com.example.android.daggertutorial.common.dependencyinjection.application.ApplicationComponent;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -23,10 +23,10 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     private PresentationCompositionRoot getCompositionRoot() {
-        return new PresentationCompositionRoot(getAppCompositionRoot(), this);
+        return new PresentationCompositionRoot(getApplicationComponent(), this);
     }
 
-    private CompositionRoot getAppCompositionRoot() {
-        return ((MyApplication) getApplication()).getCompositionRoot();
+    private ApplicationComponent getApplicationComponent() {
+        return ((MyApplication) getApplication()).getApplicationComponent();
     }
 }
