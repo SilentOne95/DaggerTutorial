@@ -21,7 +21,8 @@ public class BaseActivity extends AppCompatActivity {
         mIsInjectorUsed = true;
 
         return DaggerPresentationComponent.builder()
-                .presentationModule(new PresentationModule(this, getApplicationComponent()))
+                .presentationModule(new PresentationModule(this))
+                .applicationComponent(getApplicationComponent())
                 .build();
     }
 
