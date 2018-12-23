@@ -5,7 +5,7 @@ import com.example.android.daggertutorial.screens.questionslist.QuestionsListAct
 
 import dagger.Subcomponent;
 
-@Subcomponent(modules = PresentationModule.class)
+@Subcomponent(modules = {PresentationModule.class, ViewModelModule.class})
 public interface PresentationComponent {
     void inject(QuestionsListActivity questionsListActivity);
     void inject(QuestionDetailsActivity questionDetailsActivity);

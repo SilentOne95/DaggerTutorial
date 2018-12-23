@@ -1,5 +1,6 @@
 package com.example.android.daggertutorial.screens.questionslist;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 
 import com.example.android.daggertutorial.questions.Question;
@@ -9,6 +10,7 @@ import com.example.android.daggertutorial.screens.mvcviews.ViewMvcFactory;
 import com.example.android.daggertutorial.screens.questiondetails.QuestionDetailsActivity;
 import com.example.android.daggertutorial.questions.FetchQuestionsListUseCase;
 import com.example.android.daggertutorial.screens.dialogs.ServerErrorDialogFragment;
+import com.example.android.daggertutorial.screens.viewmodel.ViewModelFactory;
 
 import java.util.List;
 
@@ -22,8 +24,10 @@ public class QuestionsListActivity extends BaseActivity implements
     @Inject FetchQuestionsListUseCase mFetchQuestionsListUseCase;
     @Inject DialogsManager mDialogsManager;
     @Inject ViewMvcFactory mViewMvcFactory;
+    @Inject ViewModelFactory mViewModelFactory;
 
-    public QuestionsListViewMvc mViewMvc;
+    private QuestionsListViewMvc mViewMvc;
+    private QuestionsListViewModel mQuestionsListViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +35,9 @@ public class QuestionsListActivity extends BaseActivity implements
         getPresentationComponent().inject(this);
 
         mViewMvc = mViewMvcFactory.newInstance(QuestionsListViewMvc.class, null);
+
+        mQuestionsListViewModel = ViewModelProviders.of(this, mViewModelFactory)
+                .get(QuestionsListViewModel.class);
 
         setContentView(mViewMvc.getRootView());
     }
@@ -41,7 +48,11 @@ public class QuestionsListActivity extends BaseActivity implements
         mViewMvc.registerListener(this);
         mFetchQuestionsListUseCase.registerListener(this);
 
-        mFetchQuestionsListUseCase.fetchLastActiveQuestionsAndNotify(NUM_OF_QUESTIONS_TO_FETCH);
+        if (mQuestionsListViewModel.getQuestions().isEmpty()){
+            mFetchQuestionsListUseCase.fetchLastActiveQuestionsAndNotify(NUM_OF_QUESTIONS_TO_FETCH);
+        } else {
+            mViewMvc.bindQuestions(mQuestionsListViewModel.getQuestions());
+        }
     }
 
     @Override
@@ -53,6 +64,7 @@ public class QuestionsListActivity extends BaseActivity implements
 
     @Override
     public void onFetchOfQuestionsSucceeded(List<Question> questions) {
+        mQuestionsListViewModel.setQuestions(questions);
         mViewMvc.bindQuestions(questions);
     }
 
