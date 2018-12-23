@@ -10,6 +10,7 @@ import com.example.android.daggertutorial.screens.mvcviews.ViewMvcFactory;
 import com.example.android.daggertutorial.screens.questiondetails.QuestionDetailsActivity;
 import com.example.android.daggertutorial.questions.FetchQuestionsListUseCase;
 import com.example.android.daggertutorial.screens.dialogs.ServerErrorDialogFragment;
+import com.example.android.daggertutorial.screens.viewmodel.ViewModelFactory;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class QuestionsListActivity extends BaseActivity implements
     @Inject FetchQuestionsListUseCase mFetchQuestionsListUseCase;
     @Inject DialogsManager mDialogsManager;
     @Inject ViewMvcFactory mViewMvcFactory;
+    @Inject ViewModelFactory mViewModelFactory;
 
     private QuestionsListViewMvc mViewMvc;
     private QuestionsListViewModel mQuestionsListViewModel;
@@ -34,7 +36,8 @@ public class QuestionsListActivity extends BaseActivity implements
 
         mViewMvc = mViewMvcFactory.newInstance(QuestionsListViewMvc.class, null);
 
-        mQuestionsListViewModel = ViewModelProviders.of(this).get(QuestionsListViewModel.class);
+        mQuestionsListViewModel = ViewModelProviders.of(this, mViewModelFactory)
+                .get(QuestionsListViewModel.class);
 
         setContentView(mViewMvc.getRootView());
     }
