@@ -4,16 +4,19 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
-import com.example.android.daggertutorial.questions.FetchQuestionDetailsUseCase;
 import com.example.android.daggertutorial.screens.questiondetails.QuestionDetailsViewModel;
 import com.example.android.daggertutorial.screens.questionslist.QuestionsListViewModel;
 
 public class ViewModelFactory implements ViewModelProvider.Factory {
 
-    private final FetchQuestionDetailsUseCase mFetchQuestionDetailsUseCase;
+    private final QuestionDetailsViewModel mQuestionDetailsViewModel;
+    private final QuestionsListViewModel mQuestionsListViewModel;
 
-    public ViewModelFactory(FetchQuestionDetailsUseCase fetchQuestionDetailsUseCase) {
-        mFetchQuestionDetailsUseCase = fetchQuestionDetailsUseCase;
+    public ViewModelFactory(QuestionDetailsViewModel questionDetailsViewModel,
+                            QuestionsListViewModel questionsListViewModel) {
+        mQuestionDetailsViewModel = questionDetailsViewModel;
+        mQuestionsListViewModel = questionsListViewModel;
+
     }
 
     @SuppressWarnings("unchecked")
@@ -23,9 +26,9 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
         ViewModel viewModel;
 
         if (modelClass == QuestionDetailsViewModel.class) {
-            viewModel = new QuestionDetailsViewModel(mFetchQuestionDetailsUseCase);
+            viewModel = mQuestionDetailsViewModel;
         } else if(modelClass == QuestionsListViewModel.class) {
-            viewModel = new QuestionsListViewModel();
+            viewModel = mQuestionsListViewModel;
         } else {
             throw new RuntimeException("invalid view model class: " + modelClass);
         }
