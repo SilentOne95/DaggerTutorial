@@ -1,5 +1,6 @@
 package com.example.android.daggertutorial.screens.questionslist;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 
 import com.example.android.daggertutorial.questions.Question;
@@ -23,7 +24,8 @@ public class QuestionsListActivity extends BaseActivity implements
     @Inject DialogsManager mDialogsManager;
     @Inject ViewMvcFactory mViewMvcFactory;
 
-    public QuestionsListViewMvc mViewMvc;
+    private QuestionsListViewMvc mViewMvc;
+    private QuestionsListViewModel mQuestionsListViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,8 @@ public class QuestionsListActivity extends BaseActivity implements
         getPresentationComponent().inject(this);
 
         mViewMvc = mViewMvcFactory.newInstance(QuestionsListViewMvc.class, null);
+
+        mQuestionsListViewModel = ViewModelProviders.of(this).get(QuestionsListViewModel.class);
 
         setContentView(mViewMvc.getRootView());
     }
@@ -41,7 +45,11 @@ public class QuestionsListActivity extends BaseActivity implements
         mViewMvc.registerListener(this);
         mFetchQuestionsListUseCase.registerListener(this);
 
-        mFetchQuestionsListUseCase.fetchLastActiveQuestionsAndNotify(NUM_OF_QUESTIONS_TO_FETCH);
+        if (mQuestionsListViewModel.getQuestions().isEmpty()){
+            mFetchQuestionsListUseCase.fetchLastActiveQuestionsAndNotify(NUM_OF_QUESTIONS_TO_FETCH);
+        } else {
+            mViewMvc.bindQuestions(mQuestionsListViewModel.getQuestions());
+        }
     }
 
     @Override
@@ -53,6 +61,7 @@ public class QuestionsListActivity extends BaseActivity implements
 
     @Override
     public void onFetchOfQuestionsSucceeded(List<Question> questions) {
+        mQuestionsListViewModel.setQuestions(questions);
         mViewMvc.bindQuestions(questions);
     }
 
